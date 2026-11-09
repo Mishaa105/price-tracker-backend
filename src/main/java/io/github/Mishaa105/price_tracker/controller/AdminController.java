@@ -1,5 +1,6 @@
 package io.github.Mishaa105.price_tracker.controller;
 
+import io.github.Mishaa105.price_tracker.dto.product_page.ProductUpdateRequest;
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.enums.auth.Role;
 import io.github.Mishaa105.price_tracker.service.AdminCrudService;
@@ -45,7 +46,7 @@ public class AdminController
     }
 
     @DeleteMapping("/users")
-    public void deleteUserByEmail(@RequestParam String email)
+    public void deleteUser(@RequestParam String email)
     {
         adminCrudService.deleteUser(email);
     }
@@ -60,5 +61,11 @@ public class AdminController
     public void deleteProduct(@PathVariable String productId)
     {
         adminCrudService.deleteProductById(productId);
+    }
+
+    @PatchMapping("/products/{productId}")
+    public void updateProduct(@PathVariable String productId, @RequestBody ProductUpdateRequest request)
+    {
+        adminCrudService.updateProductById(productId, request);
     }
 }
