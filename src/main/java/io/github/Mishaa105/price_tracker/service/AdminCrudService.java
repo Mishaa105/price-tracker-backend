@@ -1,6 +1,9 @@
 package io.github.Mishaa105.price_tracker.service;
 
-import io.github.Mishaa105.price_tracker.dto.product_page.ProductUpdateRequest;
+import io.github.Mishaa105.price_tracker.dto.admin.ProductUpdateRequest;
+import io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByPlatform;
+import io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByRegion;
+import io.github.Mishaa105.price_tracker.dto.admin.stats.Stats;
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.entity.*;
 import io.github.Mishaa105.price_tracker.enums.auth.Role;
@@ -204,5 +207,16 @@ public class AdminCrudService
         }
 
         productRepository.save(product);
+    }
+
+    public Stats getStats()
+    {
+        long numberOfUsers = usersRepository.count();
+        long numberOfProducts = productRepository.count();
+
+        List<ProductCountByRegion> productCountByRegion = productRepository.countProductsByRegion();
+        List<ProductCountByPlatform> productCountByPlatform = productRepository.countProductsByPlatform();
+
+        return new Stats(numberOfUsers, numberOfProducts, productCountByRegion, productCountByPlatform);
     }
 }

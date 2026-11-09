@@ -1,6 +1,7 @@
 package io.github.Mishaa105.price_tracker.controller;
 
-import io.github.Mishaa105.price_tracker.dto.product_page.ProductUpdateRequest;
+import io.github.Mishaa105.price_tracker.dto.admin.ProductUpdateRequest;
+import io.github.Mishaa105.price_tracker.dto.admin.stats.Stats;
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.enums.auth.Role;
 import io.github.Mishaa105.price_tracker.service.AdminCrudService;
@@ -67,5 +68,11 @@ public class AdminController
     public void updateProduct(@PathVariable String productId, @RequestBody ProductUpdateRequest request)
     {
         adminCrudService.updateProductById(productId, request);
+    }
+
+    @GetMapping("/stats")
+    public Stats getStats()
+    {
+        return adminCrudService.getStats();
     }
 }

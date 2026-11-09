@@ -1,4 +1,4 @@
-package io.github.Mishaa105.price_tracker.dto.product_page;
+package io.github.Mishaa105.price_tracker.dto.admin;
 
 import java.util.List;
 
