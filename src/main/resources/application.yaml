@@ -25,3 +25,5 @@ app:
     base-url: https://store.playstation.com
   jwt:
     secret-key: ${SECRET_KEY}
+  frankfurter:
+    base-url: ${FRANKFURTER_URL:http://localhost:8081}

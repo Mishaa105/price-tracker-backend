@@ -1,18 +1,17 @@
 package io.github.Mishaa105.price_tracker.infrastructure.client;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Slf4j
 @Component
 public class FrankfurterClient
 {
     private final RestClient restClient;
 
-    public FrankfurterClient(RestClient.Builder builder)
+    public FrankfurterClient(RestClient.Builder builder, @Value("${app.frankfurter.base-url}") String baseUrl)
     {
-        this.restClient = builder.baseUrl("http://frankfurter:8080").build();
+        this.restClient = builder.baseUrl(baseUrl).build();
     }
 
     public String getExchangeRatesData(String date)
