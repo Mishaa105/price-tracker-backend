@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,5 +26,19 @@ public class AdminCrudService
         log.info("User with email {} successfully find", userEmail);
 
         return new UserProfileAdminResponse(user.getUserId(), user.getEmail(), user.getName(), user.getRole());
+    }
+
+    public List<UserProfileAdminResponse> getAllUserProfiles()
+    {
+        List<Users> usersList = usersRepository.findAll();
+        List<UserProfileAdminResponse> allUserProfiles = new ArrayList<>();
+
+        for (Users user : usersList)
+        {
+            UserProfileAdminResponse userProfile = new UserProfileAdminResponse(user.getUserId(), user.getEmail(), user.getName(), user.getRole());
+            allUserProfiles.add(userProfile);
+        }
+
+        return allUserProfiles;
     }
 }

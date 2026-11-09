@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RestController
@@ -31,8 +33,13 @@ public class AdminController
     }
 
     @GetMapping("/users")
-    public UserProfileAdminResponse getUserProfile(@RequestParam String email)
+    public List<UserProfileAdminResponse> getUsers(@RequestParam(required = false) String email)
     {
-        return adminCrudService.getUserProfile(email);
+        if (email != null)
+        {
+            return List.of(adminCrudService.getUserProfile(email));
+        }
+
+        return adminCrudService.getAllUserProfiles();
     }
 }
