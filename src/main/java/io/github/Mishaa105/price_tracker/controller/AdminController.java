@@ -42,4 +42,10 @@ public class AdminController
 
         return adminCrudService.getAllUserProfiles();
     }
+
+    @DeleteMapping("/users")
+    public void deleteUserByEmail(@RequestParam String email)
+    {
+        adminCrudService.deleteUser(email);
+    }
 }

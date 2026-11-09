@@ -3,6 +3,8 @@ package io.github.Mishaa105.price_tracker.service;
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.entity.Users;
 import io.github.Mishaa105.price_tracker.infrastructure.db.repository.UsersRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,15 +32,30 @@ public class AdminCrudService
 
     public List<UserProfileAdminResponse> getAllUserProfiles()
     {
-        List<Users> usersList = usersRepository.findAll();
+        List<Users> users = usersRepository.findAll();
         List<UserProfileAdminResponse> allUserProfiles = new ArrayList<>();
 
-        for (Users user : usersList)
+        for (Users user : users)
         {
             UserProfileAdminResponse userProfile = new UserProfileAdminResponse(user.getUserId(), user.getEmail(), user.getName(), user.getRole());
             allUserProfiles.add(userProfile);
         }
 
+        log.info("User list successfully received");
+
         return allUserProfiles;
+    }
+
+    @Transactional
+    public void deleteUser(String userEmail)
+    {
+        int deleted = usersRepository.deleteByEmail(userEmail);
+
+        if (deleted == 0)
+        {
+            throw new EntityNotFoundException("User not found");
+        }
+
+        log.info("User with email {} was successfully deleted", userEmail);
     }
 }
