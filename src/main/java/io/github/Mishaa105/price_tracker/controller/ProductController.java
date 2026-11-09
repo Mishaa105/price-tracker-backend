@@ -1,5 +1,6 @@
 package io.github.Mishaa105.price_tracker.controller;
 
+import io.github.Mishaa105.price_tracker.dto.product_page.ProductPage;
 import io.github.Mishaa105.price_tracker.service.product_page.ProductPageService;
 import io.github.Mishaa105.price_tracker.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ProductController
     }
 
     @GetMapping("/page")
-    String getProductPage(@RequestParam String productId)
+    ProductPage getProductPage(@RequestParam String productId)
     {
         return productPageService.getProductPage(productId);
     }

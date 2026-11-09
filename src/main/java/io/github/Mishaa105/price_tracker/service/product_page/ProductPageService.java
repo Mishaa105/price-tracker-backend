@@ -7,7 +7,6 @@ import io.github.Mishaa105.price_tracker.infrastructure.db.repository.ProductRep
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -17,9 +16,8 @@ import java.util.List;
 public class ProductPageService
 {
     private final ProductRepository productRepository;
-    private final ObjectMapper mapper;
 
-    private ProductPage productPageBuilder(String productId)
+    public ProductPage getProductPage(String productId)
     {
         String productName = productRepository.getProductNameById(productId);
         String description = productRepository.getProductDescriptionById(productId);
@@ -40,16 +38,5 @@ public class ProductPageService
         return new ProductPage(productName, description, previewUrl, edition, averageRating,
                 ratingsCount, storeClassification, releaseDate, publisherName, platforms,
                 screenLanguages, spokenLanguages, genres, allPrices, currentPrices);
-    }
-
-    private String productPageToJson(ProductPage productPage)
-    {
-        return mapper.writeValueAsString(productPage);
-    }
-
-    public String getProductPage(String productId)
-    {
-        ProductPage productPage = productPageBuilder(productId);
-        return productPageToJson(productPage);
     }
 }

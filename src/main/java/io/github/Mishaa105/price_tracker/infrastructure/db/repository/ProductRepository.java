@@ -1,5 +1,7 @@
 package io.github.Mishaa105.price_tracker.infrastructure.db.repository;
 
+import io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByPlatform;
+import io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByRegion;
 import io.github.Mishaa105.price_tracker.dto.main_page.CurrentPriceDto;
 import io.github.Mishaa105.price_tracker.dto.product_page.CurrentPricePoint;
 import io.github.Mishaa105.price_tracker.dto.product_page.PricePoint;
@@ -10,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String>
@@ -82,4 +85,16 @@ public interface ProductRepository extends JpaRepository<Product, String>
             "cp.originalPrice, b.brand, c.currency) FROM Product p " +
             "LEFT JOIN p.currentPrices cp LEFT JOIN cp.offerBrand b LEFT JOIN cp.priceCurrencyCode c WHERE p.productId = :productId")
     List<CurrentPriceDto> getProductCurrentPricesForMainPage(@Param("productId") String productId);
+
+    int deleteByProductId(String productId);
+
+    Optional<Product> findByProductId(String productId);
+
+    @Query("SELECT new io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByRegion" +
+            "(cc.currency, COUNT(DISTINCT pr)) FROM Product pr JOIN pr.currentPrices cp JOIN cp.priceCurrencyCode cc GROUP BY cc.currency")
+    List<ProductCountByRegion> countProductsByRegion();
+
+    @Query("SELECT new io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByPlatform" +
+            "(p.platform, COUNT(DISTINCT pr)) FROM Product pr JOIN pr.platforms p GROUP BY p.platform")
+    List<ProductCountByPlatform> countProductsByPlatform();
 }
