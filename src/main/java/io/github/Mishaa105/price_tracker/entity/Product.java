@@ -94,9 +94,12 @@ public class Product
     )
     private Set<Genre> genres;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<CurrentPrice> currentPrices;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Price> allPrices;
+
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.REMOVE)
+    private Set<Wishlist> wishlist;
 }

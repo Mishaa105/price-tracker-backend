@@ -55,4 +55,10 @@ public class AdminController
     {
         adminCrudService.changeUserRole(email, role);
     }
+
+    @DeleteMapping("/products/{productId}")
+    public void deleteProduct(@PathVariable String productId)
+    {
+        adminCrudService.deleteProductById(productId);
+    }
 }

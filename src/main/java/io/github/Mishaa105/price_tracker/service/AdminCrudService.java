@@ -3,6 +3,7 @@ package io.github.Mishaa105.price_tracker.service;
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.entity.Users;
 import io.github.Mishaa105.price_tracker.enums.auth.Role;
+import io.github.Mishaa105.price_tracker.infrastructure.db.repository.ProductRepository;
 import io.github.Mishaa105.price_tracker.infrastructure.db.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -21,6 +21,7 @@ import java.util.UUID;
 public class AdminCrudService
 {
     private final UsersRepository usersRepository;
+    private final ProductRepository productRepository;
 
     public UserProfileAdminResponse getUserProfile(String userEmail)
     {
@@ -71,4 +72,18 @@ public class AdminCrudService
 
         log.info("User with email {} successfully changed to {}", userEmail, role);
     }
+
+    @Transactional
+     public void deleteProductById(String productId)
+     {
+        int deleted = productRepository.deleteByProductId(productId);
+
+         if (deleted == 0)
+         {
+             throw new EntityNotFoundException("Product not found");
+
+         }
+
+         log.info("Product with id {} was successfully deleted", productId);
+     }
 }

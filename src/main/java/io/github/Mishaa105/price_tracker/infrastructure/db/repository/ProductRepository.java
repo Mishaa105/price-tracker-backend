@@ -82,4 +82,6 @@ public interface ProductRepository extends JpaRepository<Product, String>
             "cp.originalPrice, b.brand, c.currency) FROM Product p " +
             "LEFT JOIN p.currentPrices cp LEFT JOIN cp.offerBrand b LEFT JOIN cp.priceCurrencyCode c WHERE p.productId = :productId")
     List<CurrentPriceDto> getProductCurrentPricesForMainPage(@Param("productId") String productId);
+
+    int deleteByProductId(String productId);
 }
