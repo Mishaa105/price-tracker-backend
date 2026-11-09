@@ -2,6 +2,7 @@ package io.github.Mishaa105.price_tracker.service;
 
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
 import io.github.Mishaa105.price_tracker.entity.Users;
+import io.github.Mishaa105.price_tracker.enums.auth.Role;
 import io.github.Mishaa105.price_tracker.infrastructure.db.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -57,5 +59,16 @@ public class AdminCrudService
         }
 
         log.info("User with email {} was successfully deleted", userEmail);
+    }
+
+    public void changeUserRole(String userEmail, Role role)
+    {
+        Users user = usersRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
+
+        user.setRole(role);
+        usersRepository.save(user);
+
+        log.info("User with email {} successfully changed to {}", userEmail, role);
     }
 }

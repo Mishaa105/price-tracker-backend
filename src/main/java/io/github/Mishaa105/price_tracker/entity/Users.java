@@ -41,6 +41,6 @@ public class Users
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.REMOVE)
     private Set<Wishlist> wishlist;
 }

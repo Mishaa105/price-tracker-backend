@@ -1,6 +1,7 @@
 package io.github.Mishaa105.price_tracker.controller;
 
 import io.github.Mishaa105.price_tracker.dto.users.UserProfileAdminResponse;
+import io.github.Mishaa105.price_tracker.enums.auth.Role;
 import io.github.Mishaa105.price_tracker.service.AdminCrudService;
 import io.github.Mishaa105.price_tracker.service.update.ExchangeRateUpdateService;
 import io.github.Mishaa105.price_tracker.service.update.PlayStationDataUpdateService;
@@ -47,5 +48,11 @@ public class AdminController
     public void deleteUserByEmail(@RequestParam String email)
     {
         adminCrudService.deleteUser(email);
+    }
+
+    @PatchMapping("/users/{email}/role")
+    public void changeUserRole(@PathVariable String email, @RequestParam Role role)
+    {
+        adminCrudService.changeUserRole(email, role);
     }
 }
