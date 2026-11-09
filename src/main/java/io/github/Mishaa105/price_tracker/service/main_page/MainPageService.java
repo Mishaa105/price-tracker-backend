@@ -6,7 +6,6 @@ import io.github.Mishaa105.price_tracker.infrastructure.db.repository.ProductRep
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -18,10 +17,9 @@ import java.util.List;
 @Service
 public class MainPageService
 {
-    private final ObjectMapper mapper;
     private final ProductRepository productRepository;
 
-    private List<MainPageProduct> mainPageBuilder()
+    public List<MainPageProduct> getMainPage()
     {
         String yearAgoDate = Instant.now().minus(365, ChronoUnit.DAYS).toString();
         List<String> productIds = productRepository.getProductIdsForMainPage(yearAgoDate);
@@ -40,16 +38,5 @@ public class MainPageService
         }
 
         return mainPageProductList;
-    }
-
-    private String mainPageToJson(List<MainPageProduct> mainPageProductList)
-    {
-        return mapper.writeValueAsString(mainPageProductList);
-    }
-
-    public String getMainPage()
-    {
-        List<MainPageProduct> mainPageProductList = mainPageBuilder();
-        return mainPageToJson(mainPageProductList);
     }
 }
