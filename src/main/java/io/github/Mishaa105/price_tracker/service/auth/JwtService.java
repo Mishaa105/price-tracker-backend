@@ -1,10 +1,10 @@
 package io.github.Mishaa105.price_tracker.service.auth;
 
 import io.github.Mishaa105.price_tracker.config.Config;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.util.Date;
 
 @Service
-@Slf4j
 public class JwtService
 {
     private final SecretKey secretKey;
@@ -27,8 +26,11 @@ public class JwtService
         Instant creationTime = Instant.now();
         Instant expirationTime = creationTime.plusSeconds(900);
 
-        return Jwts.builder().subject(userId).claim("role", userRole)
-                .issuedAt(Date.from(creationTime)).expiration(Date.from(expirationTime))
-                .signWith(secretKey).compact();
+        return Jwts.builder().subject(userId).claim("role", userRole).issuedAt(Date.from(creationTime)).expiration(Date.from(expirationTime)).signWith(secretKey).compact();
+    }
+
+    public Claims validateToken(String token)
+    {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
     }
 }

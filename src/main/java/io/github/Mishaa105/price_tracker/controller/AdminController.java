@@ -7,16 +7,16 @@ import io.github.Mishaa105.price_tracker.enums.auth.Role;
 import io.github.Mishaa105.price_tracker.service.AdminCrudService;
 import io.github.Mishaa105.price_tracker.service.update.ExchangeRateUpdateService;
 import io.github.Mishaa105.price_tracker.service.update.PlayStationDataUpdateService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/admin/")
+@SecurityRequirement(name = "bearerAuth")
 public class AdminController
 {
     private final PlayStationDataUpdateService playStationDataUpdateService;
