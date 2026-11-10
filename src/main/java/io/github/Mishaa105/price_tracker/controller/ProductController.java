@@ -1,6 +1,8 @@
 package io.github.Mishaa105.price_tracker.controller;
 
+import io.github.Mishaa105.price_tracker.dto.product_card.ProductCardDto;
 import io.github.Mishaa105.price_tracker.dto.product_page.ProductPage;
+import io.github.Mishaa105.price_tracker.service.product_cards.ProductCardsService;
 import io.github.Mishaa105.price_tracker.service.product_page.ProductPageService;
 import io.github.Mishaa105.price_tracker.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +22,13 @@ public class ProductController
 {
     private final SearchService searchService;
     private final ProductPageService productPageService;
+    private final ProductCardsService productCardsService;
 
     @GetMapping("/search")
-    List<String> search(@RequestParam String query)
+    List<ProductCardDto> search(@RequestParam String query)
     {
-        return searchService.search(query);
+        List<String> ids = searchService.search(query);
+        return productCardsService.getProductCards(ids);
     }
 
     @GetMapping("/page")
