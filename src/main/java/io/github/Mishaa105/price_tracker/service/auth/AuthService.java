@@ -12,6 +12,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -20,7 +22,6 @@ public class AuthService
     private final PasswordEncoder passwordEncoder;
     private final UsersRepository usersRepository;
     private final JwtService jwtService;
-    //TODO Проверка на уникальность
 
     public void signUp(RegisterRequest registerRequest)
     {
@@ -28,11 +29,23 @@ public class AuthService
         String email = registerRequest.email();
         String username = registerRequest.username();
 
+        if (password.getBytes(StandardCharsets.UTF_8).length > 72)
+        {
+            throw new IllegalArgumentException("Password must not exceed 72 bytes in UTF-8");
+        }
+
         String passwordHash = passwordEncoder.encode(password);
 
         Users user = new Users(email, passwordHash, username, Role.USER);
 
+        //TODO Собственное исключение
+        if (usersRepository.existsByEmail(email))
+        {
+            throw new IllegalArgumentException("User with email " + email + " already exists");
+        }
+
         usersRepository.save(user);
+
         log.info("User {} successfully registered", username);
     }
 
@@ -42,8 +55,7 @@ public class AuthService
         String requestPassword = loginRequest.password();
         String jwtToken;
 
-        Users user = usersRepository.findByEmail(requestEmail)
-                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
+        Users user = usersRepository.findByEmail(requestEmail).orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
 
         if(passwordEncoder.matches(requestPassword, user.getPassword()))
         {

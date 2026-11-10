@@ -1,6 +1,8 @@
 package io.github.Mishaa105.price_tracker.controller;
 
+import io.github.Mishaa105.price_tracker.dto.users.UpdateEmailRequest;
 import io.github.Mishaa105.price_tracker.dto.users.UpdateNameRequest;
+import io.github.Mishaa105.price_tracker.dto.users.UpdatePasswordRequest;
 import io.github.Mishaa105.price_tracker.service.UserCrudService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,19 @@ public class UserController
     {
         UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
         userCrudService.updateUserName(userId, nameRequest.name());
+    }
+
+    @PatchMapping("/email")
+    public void updateEmail(@Valid @RequestBody UpdateEmailRequest emailRequest)
+    {
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        userCrudService.updateUserEmail(userId, emailRequest.email());
+    }
+
+    @PatchMapping("/password")
+    public void updatePassword(@Valid @RequestBody UpdatePasswordRequest passwordRequest)
+    {
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        userCrudService.updateUserPassword(userId, passwordRequest.password());
     }
 }
