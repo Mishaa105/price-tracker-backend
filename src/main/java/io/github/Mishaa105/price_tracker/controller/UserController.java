@@ -3,14 +3,12 @@ package io.github.Mishaa105.price_tracker.controller;
 import io.github.Mishaa105.price_tracker.dto.users.UpdateEmailRequest;
 import io.github.Mishaa105.price_tracker.dto.users.UpdateNameRequest;
 import io.github.Mishaa105.price_tracker.dto.users.UpdatePasswordRequest;
+import io.github.Mishaa105.price_tracker.dto.users.UserProfileResponse;
 import io.github.Mishaa105.price_tracker.service.UserCrudService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -41,5 +39,12 @@ public class UserController
     {
         UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
         userCrudService.updateUserPassword(userId, passwordRequest.password());
+    }
+
+    @GetMapping
+    public UserProfileResponse getProfile()
+    {
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        return userCrudService.getUserProfile(userId);
     }
 }

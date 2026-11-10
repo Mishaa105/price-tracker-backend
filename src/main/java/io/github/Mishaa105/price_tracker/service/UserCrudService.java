@@ -1,5 +1,6 @@
 package io.github.Mishaa105.price_tracker.service;
 
+import io.github.Mishaa105.price_tracker.dto.users.UserProfileResponse;
 import io.github.Mishaa105.price_tracker.entity.Users;
 import io.github.Mishaa105.price_tracker.infrastructure.db.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,12 @@ public class UserCrudService
         usersRepository.save(user);
 
         log.info("Password successfully updated");
+    }
+
+    public UserProfileResponse getUserProfile(UUID userId)
+    {
+        Users user = usersRepository.findById(userId).orElseThrow();
+
+        return new UserProfileResponse(user.getName(), user.getEmail());
     }
 }
