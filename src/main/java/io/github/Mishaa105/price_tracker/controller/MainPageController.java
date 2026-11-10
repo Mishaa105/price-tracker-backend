@@ -1,7 +1,8 @@
 package io.github.Mishaa105.price_tracker.controller;
 
-import io.github.Mishaa105.price_tracker.dto.main_page.MainPageProduct;
+import io.github.Mishaa105.price_tracker.dto.product_card.ProductCardDto;
 import io.github.Mishaa105.price_tracker.service.main_page.MainPageService;
+import io.github.Mishaa105.price_tracker.service.product_cards.ProductCardsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,13 @@ import java.util.List;
 @RequestMapping("/api/v1/homepage")
 public class MainPageController
 {
+    private final ProductCardsService productCardsService;
     private final MainPageService mainPageService;
 
     @GetMapping
-    List<MainPageProduct> getMainPage()
+    List<ProductCardDto> getMainPage()
     {
-        return mainPageService.getMainPage();
+        List<String> ids = mainPageService.getIdsForMainPage();
+        return productCardsService.getProductCards(ids);
     }
 }

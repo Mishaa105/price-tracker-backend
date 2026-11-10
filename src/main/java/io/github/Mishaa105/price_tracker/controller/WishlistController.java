@@ -1,5 +1,7 @@
 package io.github.Mishaa105.price_tracker.controller;
 
+import io.github.Mishaa105.price_tracker.dto.product_card.ProductCardDto;
+import io.github.Mishaa105.price_tracker.service.product_cards.ProductCardsService;
 import io.github.Mishaa105.price_tracker.service.wishlist.WishlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,25 +17,27 @@ import java.util.UUID;
 public class WishlistController
 {
     private final WishlistService wishlistService;
+    private final ProductCardsService productCardsService;
 
     @PostMapping
     void addProductToWishlistByUserid(@RequestParam String productId)
     {
-        UUID currentUserId = UUID.fromString("11111111-1111-1111-1111-111111111111");
-        wishlistService.addProductToWishlist(productId, currentUserId);
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        wishlistService.addProductToWishlist(productId, userId);
     }
 
     @DeleteMapping
     void deleteProductFromWishlistByUserid(@RequestParam String productId)
     {
-        UUID currentUserId = UUID.fromString("11111111-1111-1111-1111-111111111111");
-        wishlistService.deleteProductFromWishlist(productId, currentUserId);
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        wishlistService.deleteProductFromWishlist(productId, userId);
     }
 
     @GetMapping
-    List<String> getAllProductsFromWishlistByUserid()
+    List<ProductCardDto> getAllProductsFromWishlistByUserid()
     {
-        UUID currentUserId = UUID.fromString("11111111-1111-1111-1111-111111111111");
-        return wishlistService.getAllProductsFromWishlist(currentUserId);
+        UUID userId = UUID.fromString("abea82ff-2b6a-4eb3-9241-d69622c16ada");
+        List<String> ids = wishlistService.getAllProductsFromWishlist(userId);
+        return productCardsService.getProductCards(ids);
     }
 }
