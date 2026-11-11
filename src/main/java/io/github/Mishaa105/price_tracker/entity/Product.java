@@ -102,4 +102,7 @@ public class Product
 
     @OneToMany(mappedBy = "productId", cascade = CascadeType.REMOVE)
     private Set<Wishlist> wishlist;
+
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.REMOVE)
+    private Set<Notification> notifications;
 }

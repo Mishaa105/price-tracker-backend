@@ -37,6 +37,7 @@ public class SecurityConfig
                         .requestMatchers("/api/v1/products/**").permitAll()
                         .requestMatchers("/api/v1/homepage").permitAll()
                         .requestMatchers("/api/v1/currencies/rates").permitAll()
+                        .requestMatchers("/api/v1/notifications","/api/v1/notifications/**").authenticated()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**"
                         ).permitAll()
                         .anyRequest().denyAll()

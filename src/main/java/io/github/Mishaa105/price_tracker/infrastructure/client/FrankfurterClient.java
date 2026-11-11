@@ -16,6 +16,6 @@ public class FrankfurterClient
 
     public String getExchangeRatesData(String date)
     {
-        return restClient.get().uri("/v2/rates?date=" + date +"&base=RUB&quotes=USD,EUR,TRY,UAH,IDR").retrieve().body(String.class);
+        return restClient.get().uri("/v2/rates?date=" + date +"&base=RUB&quotes=USD,EUR,TRY,UAH,INR,PLN").retrieve().body(String.class);
     }
 }

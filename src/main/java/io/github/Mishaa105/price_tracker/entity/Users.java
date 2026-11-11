@@ -43,4 +43,7 @@ public class Users
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.REMOVE)
     private Set<Wishlist> wishlist;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.REMOVE)
+    private Set<Notification> notification;
 }

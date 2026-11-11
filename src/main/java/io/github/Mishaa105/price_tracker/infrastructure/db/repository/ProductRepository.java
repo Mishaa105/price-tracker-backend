@@ -97,4 +97,5 @@ public interface ProductRepository extends JpaRepository<Product, String>
     @Query("SELECT new io.github.Mishaa105.price_tracker.dto.admin.stats.ProductCountByPlatform" +
             "(p.platform, COUNT(DISTINCT pr)) FROM Product pr JOIN pr.platforms p GROUP BY p.platform")
     List<ProductCountByPlatform> countProductsByPlatform();
+
 }
